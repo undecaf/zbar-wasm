@@ -34,7 +34,7 @@ An example that scans a static image file:
 <!DOCTYPE html>
 <html>
 <body>
-  <img id="img" crossorigin="anonymous" src="https://github.com/undecaf/zbar-wasm/blob/master/test/img/qr_code.png">
+  <img id="img" crossorigin="anonymous" src="https://raw.githubusercontent.com/undecaf/zbar-wasm/master/test/img/qr_code.png">
   <pre id="result"></pre>
 
   <script type="module">
@@ -120,7 +120,7 @@ const { scanImageData } = require('@undecaf/zbar-wasm');
     symbols = await scanImageData(imageData);
 
   console.log(symbols[0].typeName, symbols[0].decode());
-}) ('https://github.com/undecaf/zbar-wasm/blob/master/test/img/qr_code.png');
+}) ('https://raw.githubusercontent.com/undecaf/zbar-wasm/master/test/img/qr_code.png');
 ```
 
 ### Bundling/deploying zbar-wasm
