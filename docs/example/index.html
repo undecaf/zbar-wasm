@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.9">
+
+  <title>zbar-wasm example</title>
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="icon" type="image/png" href="img/favicon.png">
+
+  <style>
+      .container {
+          margin-top: 1em;
+      }
+
+      h5, p {
+          margin-top: 0.5em;
+      }
+
+      img, video, #note {
+          display: none;
+          max-width: 100%;
+      }
+
+      #img-url {
+          width: 25em;
+          max-width: 100%;
+      }
+
+      #img-url.active {
+          color: #ffffff;
+          background-color: #33C3F0;
+      }
+
+      #img-url.active ~ #img,
+      #img-url.active ~ #note,
+      #img-btn.button-primary ~ #img,
+      #video-btn.button-primary ~ #video {
+          display: block;
+      }
+
+      pre {
+          white-space: pre-wrap;
+          word-wrap: break-word;
+      }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <h4><a href="https://undecaf.github.io/zbar-wasm/">zbar-wasm</a> example</h4>
+
+  <h5>Image source</h5>
+
+  <input id="file-input" type="file" style="display: none;" accept="image/*">
+
+  <input id="img-url" type="url" placeholder="Image URL" required>
+  <button id="img-btn">Image file</button>
+  <button id="video-btn">Camera</button>
+
+  <img id="img" crossorigin="anonymous">
+  <video id="video" autoplay></video>
+
+  <p id='note'>If the image does not appear then loading may have been blocked by the server's CORS policy.</p>
+
+  <h5>Result</h5>
+
+  <pre id="result"></pre>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm/dist/index.js"></script>
+
+<script>
+    const
+        fileInput = document.getElementById('file-input'),
+        imgUrl = document.getElementById('img-url'),
+        imgBtn = document.getElementById('img-btn'),
+        videoBtn = document.getElementById('video-btn'),
+        img = document.getElementById('img'),
+        video = document.getElementById('video'),
+        result = document.getElementById('result'),
+        canvas = document.createElement('canvas'),
+        ctx = canvas.getContext('2d');
+
+    let timeoutId = null;
+
+
+    function detect(source) {
+        canvas.width = source.naturalWidth || source.videoWidth || source.width
+        canvas.height = source.naturalHeight || source.videoHeight || source.height
+
+        if (canvas.height && canvas.width) {
+            ctx.drawImage(source, 0, 0)
+
+            return zbarWasm
+                .scanImageData(ctx.getImageData(0, 0, canvas.width, canvas.height))
+                .then(symbols => {
+                    result.innerText = JSON.stringify(
+                      symbols.map(s => ({ rawValue: s.decode(), typeName: s.typeName, quality: s.quality })), null, 2
+                    )
+                })
+
+        } else {
+            result.innerText = 'Source not ready'
+            return Promise.resolve()
+        }
+    }
+
+
+    function detectImg() {
+        detectVideo(false)
+
+        if (video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop())
+            video.srcObject = null
+        }
+
+        img.decode()
+            .then(() => detect(img))
+    }
+
+
+    function detectVideo(active) {
+        if (active) {
+            detect(video)
+              .then(() => timeoutId = setTimeout(() => detectVideo(true), 100))
+
+        } else {
+            clearTimeout(timeoutId)
+            timeoutId = null
+        }
+    }
+
+
+    function onUrlActive() {
+        if (imgUrl.validity.valid) {
+            imgBtn.className = videoBtn.className = ''
+            imgUrl.className = 'active'
+
+            img.src = imgUrl.value
+            detectImg()
+        }
+    }
+
+    imgUrl.addEventListener('change', onUrlActive)
+    imgUrl.addEventListener('focus', onUrlActive)
+
+
+    fileInput.addEventListener('change', event => {
+        imgUrl.className = videoBtn.className = ''
+        imgBtn.className = 'button-primary'
+
+        img.src = URL.createObjectURL(fileInput.files[0])
+        detectImg()
+    })
+
+
+    imgBtn.addEventListener('click', event => {
+        fileInput.dispatchEvent(new MouseEvent('click'))
+    })
+
+
+    videoBtn.addEventListener('click', event => {
+        navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: 'environment' } })
+            .then(stream => {
+                imgUrl.className = imgBtn.className = ''
+                videoBtn.className = 'button-primary'
+
+                video.srcObject = stream
+                detectVideo(true)
+            })
+            .catch(error => {
+                result.innerText = JSON.stringify(error)
+                cameraInput.checked = false
+            })
+    })
+</script>
+
+</body>
+</html>

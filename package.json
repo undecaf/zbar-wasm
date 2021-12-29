@@ -1,0 +1,51 @@
+{
+  "name": "@undecaf/zbar-wasm",
+  "version": "0.9.4",
+  "description": "A WebAssembly build of the C/C++ ZBar barcode reader",
+  "type": "module",
+  "main": "./dist/main.cjs",
+  "module": "./dist/main.js",
+  "exports": {
+    "require": "./dist/main.cjs",
+    "script": "./dist/index.js",
+    "default": "./dist/main.js"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "types": "./dist/main.d.ts",
+  "typings": "./dist/main.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/undecaf/zbar-wasm.git"
+  },
+  "keywords": [
+    "zbar",
+    "barcode",
+    "qrcode",
+    "scanner",
+    "wasm",
+    "webassembly",
+    "emscripten"
+  ],
+  "author": "F. Kasper <fkasper@modus-operandi.at>",
+  "license": "LGPL-2.1+",
+  "bugs": {
+    "url": "https://github.com/undecaf/zbar-wasm/issues"
+  },
+  "homepage": "https://github.com/undecaf/zbar-wasm#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@types/jest": "^27.0.3",
+    "canvas": "^2.8.0",
+    "jest": "^27.4.3",
+    "prettier": "^2.5.0",
+    "rollup": "^2.60.2",
+    "rollup-plugin-polyfill-node": "^0.8.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-ts": "^2.0.4",
+    "tslib": "^2.3.1",
+    "typescript": "^4.5.3"
+  }
+}

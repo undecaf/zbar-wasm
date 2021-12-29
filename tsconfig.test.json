@@ -1,0 +1,8 @@
+{
+    /* Options for compiling test code */
+    "extends": "./tsconfig.json",
+    "include": ["./test/**/*"],
+    "compilerOptions": {
+        "module": "CommonJS"    /* Jest has only experimental ESM support */
+    }
+}
