@@ -134,7 +134,7 @@ This must be observed when bundling zbar-wasm or deploying it to a server:
   [`rollup-plugin-copy`](https://www.npmjs.com/package/rollup-plugin-copy), [`esbuild-plugin-copy`](https://www.npmjs.com/package/esbuild-plugin-copy)
   or similar).
 + `zbar.wasm` must be copied to the directory where the zbar-wasm module/the bundle containing that module is located.
-+ It should be served as `applićation/wasm` so that it can be compiled in parallel with being received 
++ It should be served as `application/wasm` so that it can be compiled in parallel with being received 
   by the browser.
 
 
