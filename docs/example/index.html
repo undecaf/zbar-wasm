@@ -51,7 +51,7 @@
 
 <body>
 <div class="container">
-  <h4><a href="https://undecaf.github.io/zbar-wasm/">zbar-wasm</a> example</h4>
+  <h4><a href="https://github.com/undecaf/zbar-wasm">zbar-wasm</a> example</h4>
 
   <h5>Image source</h5>
 
@@ -118,8 +118,8 @@
             video.srcObject = null
         }
 
-        img.decode()
-            .then(() => detect(img))
+        // FF needs some time to properly update decode()
+        setTimeout(() => img.decode().then(() => detect(img)), 100)
     }
 
 
