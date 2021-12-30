@@ -20,29 +20,42 @@
           margin-top: 0.5em;
       }
 
+      label {
+          display: inline-block;
+      }
+
       img, video, #note {
           display: none;
           max-width: 100%;
       }
 
-      #img-url {
+      #imgUrl {
           width: 25em;
           max-width: 100%;
       }
 
-      #img-url.active {
+      #imgUrl.active {
           color: #ffffff;
           background-color: #33C3F0;
       }
 
-      #img-url.active ~ #img,
-      #img-url.active ~ #note,
-      #img-btn.button-primary ~ #img,
-      #video-btn.button-primary ~ #video {
+      #imgUrl.active ~ #img,
+      #imgUrl.active ~ #note,
+      #imgBtn.button-primary ~ #img,
+      #videoBtn.button-primary ~ #video {
           display: block;
       }
 
+      #videoBtn {
+          margin-right: 1em;
+      }
+
+      #encoding {
+          margin-right: 1em;
+      }
+
       pre {
+          font-size: 1.35rem;
           white-space: pre-wrap;
           word-wrap: break-word;
       }
@@ -55,11 +68,23 @@
 
   <h5>Image source</h5>
 
-  <input id="file-input" type="file" style="display: none;" accept="image/*">
+  <input id="fileInput" type="file" style="display: none;" accept="image/*">
 
-  <input id="img-url" type="url" placeholder="Image URL" required>
-  <button id="img-btn">Image file</button>
-  <button id="video-btn">Camera</button>
+  <input id="imgUrl" type="url" placeholder="Image URL" required>
+  <button id="imgBtn">Image file</button>
+  <button id="videoBtn">Camera</button>
+
+  <select id="encoding">
+    <option value="utf-8" selected>UTF-8</option>
+    <option value="iso-8859-15">ISO-8859-15</option>
+    <option value="windows-1252">Windows-1252</option>
+    <option value="macintosh">Macintosh</option>
+  </select>
+
+  <label>
+    <input id="details" type="checkbox">
+    <span class="label-body">Show details</span>
+  </label>
 
   <img id="img" crossorigin="anonymous">
   <video id="video" autoplay></video>
@@ -75,15 +100,13 @@
 
 <script>
     const
-        fileInput = document.getElementById('file-input'),
-        imgUrl = document.getElementById('img-url'),
-        imgBtn = document.getElementById('img-btn'),
-        videoBtn = document.getElementById('video-btn'),
-        img = document.getElementById('img'),
-        video = document.getElementById('video'),
-        result = document.getElementById('result'),
+        el = {},
         canvas = document.createElement('canvas'),
         ctx = canvas.getContext('2d');
+
+    document
+        .querySelectorAll('[id]')
+        .forEach(element => el[element.id] = element)
 
     let timeoutId = null;
 
@@ -98,13 +121,21 @@
             return zbarWasm
                 .scanImageData(ctx.getImageData(0, 0, canvas.width, canvas.height))
                 .then(symbols => {
-                    result.innerText = JSON.stringify(
-                      symbols.map(s => ({ rawValue: s.decode(), typeName: s.typeName, quality: s.quality })), null, 2
-                    )
+                    symbols.forEach(s => s.rawValue = s.decode(el.encoding.value))
+                    if (!el.details.checked) {
+                        symbols.forEach(s => {
+                            delete s.type
+                            delete s.data
+                            delete s.points
+                            delete s.time
+                            delete s.cacheCount
+                        })
+                    }
+                    el.result.innerText = JSON.stringify(symbols, null, 2)
                 })
 
         } else {
-            result.innerText = 'Source not ready'
+            el.result.innerText = 'Source not ready'
             return Promise.resolve()
         }
     }
@@ -113,19 +144,19 @@
     function detectImg() {
         detectVideo(false)
 
-        if (video.srcObject) {
-            video.srcObject.getTracks().forEach(track => track.stop())
-            video.srcObject = null
+        if (el.video.srcObject) {
+            el.video.srcObject.getTracks().forEach(track => track.stop())
+            el.video.srcObject = null
         }
 
         // FF needs some time to properly update decode()
-        setTimeout(() => img.decode().then(() => detect(img)), 100)
+        setTimeout(() => el.img.decode().then(() => detect(el.img)), 100)
     }
 
 
     function detectVideo(active) {
         if (active) {
-            detect(video)
+            detect(el.video)
               .then(() => timeoutId = setTimeout(() => detectVideo(true), 100))
 
         } else {
@@ -136,44 +167,45 @@
 
 
     function onUrlActive() {
-        if (imgUrl.validity.valid) {
-            imgBtn.className = videoBtn.className = ''
-            imgUrl.className = 'active'
+        if (el.imgUrl.validity.valid) {
+            el.imgBtn.className = el.videoBtn.className = ''
+            el.imgUrl.className = 'active'
 
-            img.src = imgUrl.value
+            el.img.src = el.imgUrl.value
             detectImg()
         }
     }
 
-    imgUrl.addEventListener('change', onUrlActive)
-    imgUrl.addEventListener('focus', onUrlActive)
+    el.imgUrl.addEventListener('change', onUrlActive)
+    el.imgUrl.addEventListener('focus', onUrlActive)
 
 
-    fileInput.addEventListener('change', event => {
-        imgUrl.className = videoBtn.className = ''
-        imgBtn.className = 'button-primary'
+    el.fileInput.addEventListener('change', event => {
+        el.imgUrl.className = el.videoBtn.className = ''
+        el.imgBtn.className = 'button-primary'
 
-        img.src = URL.createObjectURL(fileInput.files[0])
+        el.img.src = URL.createObjectURL(el.fileInput.files[0])
+        el.fileInput.value = null
         detectImg()
     })
 
 
-    imgBtn.addEventListener('click', event => {
-        fileInput.dispatchEvent(new MouseEvent('click'))
+    el.imgBtn.addEventListener('click', event => {
+        el.fileInput.dispatchEvent(new MouseEvent('click'))
     })
 
 
-    videoBtn.addEventListener('click', event => {
+    el.videoBtn.addEventListener('click', event => {
         navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: 'environment' } })
             .then(stream => {
-                imgUrl.className = imgBtn.className = ''
-                videoBtn.className = 'button-primary'
+                el.imgUrl.className = el.imgBtn.className = ''
+                el.videoBtn.className = 'button-primary'
 
-                video.srcObject = stream
+                el.video.srcObject = stream
                 detectVideo(true)
             })
             .catch(error => {
-                result.innerText = JSON.stringify(error)
+                el.result.innerText = JSON.stringify(error)
                 cameraInput.checked = false
             })
     })
