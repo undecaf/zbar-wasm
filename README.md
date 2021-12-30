@@ -1,6 +1,6 @@
 # A WebAssembly build of the ZBar Bar Code Reader
 
-![Minified size](https://badgen.net/bundlephobia/min/@undecaf/zbar-wasm)
+![Install size](https://badgen.net/packagephobia/install/@undecaf/zbar-wasm)
 ![Open issues](https://badgen.net/github/open-issues/undecaf/zbar-wasm)
 ![Vulnerabilities](https://snyk.io/test/npm/@undecaf/zbar-wasm/badge.svg)
 ![Total downloads](https://badgen.net/npm/dt/@undecaf/zbar-wasm)
@@ -95,6 +95,8 @@ $ npm install @undecaf/zbar-wasm
     or
 $ yarn add @undecaf/zbar-wasm
 ```
+
+Using:
 
 `import ... from '@undecaf/zbar-wasm'` pulls the ES module from the package,
 `require('@undecaf/zbar-wasm')` pulls the CommonJS module.
