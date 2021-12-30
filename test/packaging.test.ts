@@ -6,8 +6,8 @@ test('NPM package content', () => {
         /^LICEN[CS]E(\..*)?$/i, 
         /^README(\..*)?$/i, 
         /^package\.json$/,
-        /^dist\/main\.cjs(\.d\.ts|\.map)?$/,
-        /^dist\/(main|index)\.(js(\.map)?|d\.ts)$/,
+        /^dist\/main\.cjs(\.d\.ts)?$/,
+        /^dist\/(main|index)\.(js|d\.ts)$/,
         /^dist\/zbar\.wasm$/,
     ]
 
@@ -15,7 +15,7 @@ test('NPM package content', () => {
 
     expect(pkg.name).toEqual('@undecaf/zbar-wasm')
     
-    expect(pkg.files.length).toBeGreaterThanOrEqual(13)
+    expect(pkg.files.length).toBe(10)
 
     const extraFiles = pkg.files.map(obj => obj.path).filter(p => !expectedFiles.some(e => e.test(p)))
     expect(extraFiles).toEqual([])

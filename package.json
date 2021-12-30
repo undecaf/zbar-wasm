@@ -11,7 +11,10 @@
     "default": "./dist/main.js"
   },
   "files": [
-    "dist/*"
+    "dist/*.js",
+    "dist/*.cjs",
+    "dist/*.d.ts",
+    "dist/*.wasm"
   ],
   "types": "./dist/main.d.ts",
   "typings": "./dist/main.d.ts",
