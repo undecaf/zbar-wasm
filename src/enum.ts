@@ -51,29 +51,29 @@ export enum ZBarSymbolType {
 }
 
 export enum ZBarConfigType {
-  ZBAR_CFG_ENABLE = 0,         /**< enable symbology/feature */
-  ZBAR_CFG_ADD_CHECK,	         /**< enable check digit when optional */
-  ZBAR_CFG_EMIT_CHECK,         /**< return check digit when present */
-  ZBAR_CFG_ASCII,	             /**< enable full ASCII character set */
-  ZBAR_CFG_BINARY,	           /**< don't convert binary data to text */
-  ZBAR_CFG_NUM,	               /**< number of boolean decoder configs */
+  ZBAR_CFG_ENABLE = 0,            /**< enable symbology/feature */
+  ZBAR_CFG_ADD_CHECK,        /**< enable check digit when optional */
+  ZBAR_CFG_EMIT_CHECK,       /**< return check digit when present */
+  ZBAR_CFG_ASCII,            /**< enable full ASCII character set */
+  ZBAR_CFG_BINARY,           /**< don't convert binary data to text */
+  ZBAR_CFG_NUM,              /**< number of boolean decoder configs */
 
-  ZBAR_CFG_MIN_LEN = 0x20,     /**< minimum data length for valid decode */
-  ZBAR_CFG_MAX_LEN,	           /**< maximum data length for valid decode */
+  ZBAR_CFG_MIN_LEN = 0x20,        /**< minimum data length for valid decode */
+  ZBAR_CFG_MAX_LEN,        /**< maximum data length for valid decode */
 
-  ZBAR_CFG_UNCERTAINTY = 0x40, /**< required video consistency frames */
+  ZBAR_CFG_UNCERTAINTY = 0x40,    /**< required video consistency frames */
 
-  ZBAR_CFG_POSITION = 0x80,    /**< enable scanner to collect position data */
-  ZBAR_CFG_TEST_INVERTED,      /**< if fails to decode, test inverted */
+  ZBAR_CFG_POSITION = 0x80,       /**< enable scanner to collect position data */
+  ZBAR_CFG_TEST_INVERTED,  /**< if fails to decode, test inverted */
 
-  ZBAR_CFG_X_DENSITY = 0x100,  /**< image scanner vertical scan density */
-  ZBAR_CFG_Y_DENSITY,		       /**< image scanner horizontal scan density */
+  ZBAR_CFG_X_DENSITY = 0x100,     /**< image scanner vertical scan density */
+  ZBAR_CFG_Y_DENSITY,     /**< image scanner horizontal scan density */
 }
 
 export enum ZBarOrientation {
-  ZBAR_ORIENT_UNKNOWN = -1,    /**< unable to determine orientation */
-  ZBAR_ORIENT_UP,	             /**< upright, read left to right */
-  ZBAR_ORIENT_RIGHT,	         /**< sideways, read top to bottom */
-  ZBAR_ORIENT_DOWN,	           /**< upside-down, read right to left */
-  ZBAR_ORIENT_LEFT,	           /**< sideways, read bottom to top */
+  ZBAR_ORIENT_UNKNOWN = -1,       /**< unable to determine orientation */
+  ZBAR_ORIENT_UP,            /**< upright, read left to right */
+  ZBAR_ORIENT_RIGHT,         /**< sideways, read top to bottom */
+  ZBAR_ORIENT_DOWN,          /**< upside-down, read right to left */
+  ZBAR_ORIENT_LEFT,          /**< sideways, read bottom to top */
 }
