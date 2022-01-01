@@ -24,6 +24,11 @@
           display: inline-block;
       }
 
+      .viewport {
+          display: inline-block;
+          position: relative;
+      }
+
       img, video, #note {
           display: none;
           max-width: 100%;
@@ -39,15 +44,19 @@
           background-color: #33C3F0;
       }
 
-      #imgUrl.active ~ #img,
+      #imgUrl.active ~ .viewport > #img,
       #imgUrl.active ~ #note,
-      #imgBtn.button-primary ~ #img,
-      #videoBtn.button-primary ~ #video {
+      #imgBtn.button-primary ~ .viewport > #img,
+      #videoBtn.button-primary ~ .viewport > #video {
           display: block;
       }
 
-      #videoBtn {
-          margin-right: 1em;
+      #canvas {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
       }
 
       #encoding {
@@ -86,8 +95,11 @@
     <span class="label-body">Show details</span>
   </label>
 
-  <img id="img" crossorigin="anonymous">
-  <video id="video" autoplay></video>
+  <div class="viewport">
+    <canvas id="canvas"></canvas>
+    <img id="img" crossorigin="anonymous">
+    <video id="video" autoplay></video>
+  </div>
 
   <p id='note'>If the image does not appear then loading may have been blocked by the server's CORS policy.</p>
 
@@ -99,14 +111,13 @@
 <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm/dist/index.js"></script>
 
 <script>
-    const
-        el = {},
-        canvas = document.createElement('canvas'),
-        ctx = canvas.getContext('2d');
+    const el = {}
 
     document
         .querySelectorAll('[id]')
         .forEach(element => el[element.id] = element)
+
+    const ctx  = canvas.getContext('2d')
 
     let timeoutId = null;
 
@@ -121,7 +132,18 @@
             return zbarWasm
                 .scanImageData(ctx.getImageData(0, 0, canvas.width, canvas.height))
                 .then(symbols => {
+                  symbols.forEach(symbol => {
+                    const lastPoint = symbol.points[symbol.points.length - 1]
+                    ctx.moveTo(lastPoint.x, lastPoint.y)
+                    symbol.points.forEach(point => ctx.lineTo(point.x, point.y))
+
+                    ctx.lineWidth = Math.max(Math.min(canvas.height, canvas.width) / 100, 1)
+                    ctx.strokeStyle = '#00e00060'
+                    ctx.stroke()
+                  })
+
                     symbols.forEach(s => s.rawValue = s.decode(el.encoding.value))
+
                     if (!el.details.checked) {
                         symbols.forEach(s => {
                             delete s.type
