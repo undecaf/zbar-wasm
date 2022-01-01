@@ -14,14 +14,20 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
 
 + Provided as minified ES module, CommonJS module and plain script
 + Runs in modern browsers, in Node.js and also in workers
-+ Supports Code-39, Code-93, Code-128, Codabar, Databar/Expanded,
-  EAN/GTIN-5/8/13, ISBN-10/13, ITF (Interleaved 2 of 5), QR Code, UPC-A/E.
-+ Detects composite barcodes such as ISBN-13+5 and multiple barcodes per image
++ Supports Code-39, Code-93, Code-128, Codabar, Databar,
+  EAN/GTIN-5/8/13, ISBN-10/13, ISBN-13+2, ISBN-13+5, ITF (Interleaved 2 of 5), QR Code, UPC-A/E.
++ Simultaneously detects multiple barcodes, also with different types
 + Barcodes may be oriented horizontally or vertically
 + Outperforms pure ECMAScript barcode scanners
 
-An example page [is available here](https://undecaf.github.io/zbar-wasm/example/)
-([source code](https://github.com/undecaf/zbar-wasm/tree/master/docs/example)).
+
+## Examples based on zbar-wasm
+
++ [A simple online example](https://undecaf.github.io/zbar-wasm/example/)
+  ([source code](https://github.com/undecaf/zbar-wasm/tree/master/docs/example))
++ An [equivalent example](https://undecaf.github.io/barcode-detector-polyfill/example/) using a [polyfill](https://undecaf.github.io/barcode-detector-polyfill/example/)
+  for the [`BarcodeDetector` API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector)
+  ([source code with build scripts for Rollup and esbuild](https://github.com/undecaf/barcode-detector-polyfill/tree/master/example))
 
 
 ## Getting started
@@ -145,6 +151,10 @@ This must be observed when bundling zbar-wasm or deploying it to a server:
 Please note that zbar-wasm is licensed under the LGPL because it is derived from an LGPL-licensed work.
 Therefore, bundling zbar-wasm imposes the LGPL on the bundles, too.
 
+If you need a more liberal license for your work then the [BarcodeDetector polyfill](https://www.npmjs.com/package/@undecaf/barcode-detector-polyfill)
+package might be an option. It does not bundle zbar-wasm but loads it at runtime (as a library), and it is under the MIT license.
+As an additional benefit it provides a simpler API than zbar-wasm.
+
 
 ## API documentation
 
@@ -197,7 +207,7 @@ EM_ENGINE = $(EM_PODMAN)
 ```
 
 
-## Credits to...
+## Credits to ...
 
 + [samsam2310]() for providing invaluable information in his [zbar.wasm](https://github.com/samsam2310/zbar.wasm) repository
 + [mchehab](https://github.com/mchehab) for maintaining [zbar](https://github.com/mchehab/zbar)
