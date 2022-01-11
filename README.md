@@ -14,20 +14,23 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
 
 + Provided as minified ES module, CommonJS module and plain script
 + Runs in modern browsers, in Node.js and also in workers
-+ Supports Code-39, Code-93, Code-128, Codabar, Databar,
++ Supports Code-39, Code-93, Code-128, Codabar, Databar/Expanded,
   EAN/GTIN-5/8/13, ISBN-10/13, ISBN-13+2, ISBN-13+5, ITF (Interleaved 2 of 5), QR Code, UPC-A/E.
 + Simultaneously detects multiple barcodes, also with different types
 + Barcodes may be oriented horizontally or vertically
-+ Outperforms pure ECMAScript barcode scanners
++ Scans [`ImageData`](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) and 
+  RGB/grayscale [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) objects
++ Outperforms pure JavaScript barcode scanners
 
 
 ## Examples based on zbar-wasm
 
 + [A simple online example](https://undecaf.github.io/zbar-wasm/example/)
   ([source code](https://github.com/undecaf/zbar-wasm/tree/master/docs/example))
-+ An [equivalent example](https://undecaf.github.io/barcode-detector-polyfill/example/) using a [polyfill](https://undecaf.github.io/barcode-detector-polyfill/example/)
-  for the [`BarcodeDetector` API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector)
-  ([source code with build scripts for Rollup and esbuild](https://github.com/undecaf/barcode-detector-polyfill/tree/master/example))
++ [A polyfill](https://undecaf.github.io/barcode-detector-polyfill/example/)
+  for the [`BarcodeDetector` Web API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector)
+  ([source code](https://github.com/undecaf/barcode-detector-polyfill/tree/master/example)
+  with build scripts for Rollup and esbuild)
 
 
 ## Getting started
@@ -180,11 +183,6 @@ Prerequisites:
 + [Docker](https://www.docker.com/) or [Podman](https://podman.io/)
 + [Node.js](https://nodejs.org/) v12+
 
-The `Makefile` runs [emscripten](https://emscripten.org/) in a container, compiling the C/C++
-sources of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar)
-to [WebAssembly](https://webassembly.org/). It also compiles and bundles the TypeScript glue code
-and runs the tests in Node.js on the host machine.
-
 To build:
 
 ```bash
@@ -193,8 +191,13 @@ $ cd zbar-wasm
 $ make
 ```
 
-If you prefer [Podman](https://podman.io/) as container engine then `Makefile` needs to be edited before running `make`:
-replace the line
+The `make` command runs [emscripten](https://emscripten.org/) in a container, compiling the C/C++
+sources of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar)
+to [WebAssembly](https://webassembly.org/). It also compiles and bundles the TypeScript glue code
+and runs the tests in Node.js on the host machine.
+
+If you prefer [Podman](https://podman.io/) as container engine then the provided `Makefile` need
+to be edited before running `make`: replace the line
 
 ```
 EM_ENGINE = $(EM_DOCKER)
