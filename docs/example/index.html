@@ -79,7 +79,7 @@
 
   <input id="fileInput" type="file" style="display: none;" accept="image/*">
 
-  <input id="imgUrl" type="url" placeholder="Image URL" required>
+  <input id="imgUrl" type="url" placeholder="Paste an image URL then click outside" required>
   <button id="imgBtn">Image file</button>
   <button id="videoBtn">Camera</button>
 
@@ -117,13 +117,15 @@
         .querySelectorAll('[id]')
         .forEach(element => el[element.id] = element)
 
-    const ctx  = canvas.getContext('2d')
-
     let timeoutId = null;
 
 
     function detect(source) {
-        canvas.width = source.naturalWidth || source.videoWidth || source.width
+      const
+        canvas = el.canvas,
+        ctx = canvas.getContext('2d');
+
+      canvas.width = source.naturalWidth || source.videoWidth || source.width
         canvas.height = source.naturalHeight || source.videoHeight || source.height
 
         if (canvas.height && canvas.width) {
