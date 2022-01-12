@@ -16,7 +16,7 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
 + Runs in modern browsers, in Node.js and also in workers
 + Supports Code-39, Code-93, Code-128, Codabar, Databar/Expanded,
   EAN/GTIN-5/8/13, ISBN-10/13, ISBN-13+2, ISBN-13+5, ITF (Interleaved 2 of 5), QR Code, UPC-A/E.
-+ Simultaneously detects multiple barcodes, also with different types
++ Detects multiple barcodes per frame, also with different types
 + Barcodes may be oriented horizontally or vertically
 + Scans [`ImageData`](https://developer.mozilla.org/en-US/docs/Web/API/ImageData) and 
   RGB/grayscale [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) objects
@@ -25,12 +25,16 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
 
 ## Examples based on zbar-wasm
 
-+ [A simple online example](https://undecaf.github.io/zbar-wasm/example/)
-  ([source code](https://github.com/undecaf/zbar-wasm/tree/master/docs/example))
-+ [A polyfill](https://undecaf.github.io/barcode-detector-polyfill/example/)
-  for the [`BarcodeDetector` Web API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector)
-  ([source code](https://github.com/undecaf/barcode-detector-polyfill/tree/master/example)
-  with build scripts for Rollup and esbuild)
++ A simple example: [on GitHub](https://undecaf.github.io/zbar-wasm/example/) 
+  ([source code](https://github.com/undecaf/zbar-wasm/tree/master/docs/example)),
+  [on CodePen](https://codepen.io/undecaf/pen/ZEXmqdB),
+  
++ A polyfill for the [`BarcodeDetector` Web API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector):
+  [on GitHub](https://undecaf.github.io/barcode-detector-polyfill/example/)
+  ([source code](https://github.com/undecaf/barcode-detector-polyfill/tree/master/example) 
+  with build scripts for Rollup and esbuild),
+  [on CodePen](https://codepen.io/undecaf/pen/LYzXXzg)
+  
 
 
 ## Getting started
@@ -156,7 +160,7 @@ Therefore, bundling zbar-wasm imposes the LGPL on the bundles, too.
 
 If you need a more liberal license for your work then the [BarcodeDetector polyfill](https://www.npmjs.com/package/@undecaf/barcode-detector-polyfill)
 package might be an option. It does not bundle zbar-wasm but loads it at runtime (as a library), and it is under the MIT license.
-As an additional benefit it provides a simpler API than zbar-wasm.
+As an additional benefit it provides a simpler and more flexible API than zbar-wasm.
 
 
 ## API documentation
