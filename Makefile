@@ -9,7 +9,7 @@ TEST_TS = $(wildcard ./$(TEST)/*.ts)
 TEST_JS = $(patsubst ./$(TEST)/%.ts,./$(BUILD)/%.js,$(TEST_TS))
 TEST_COVERAGE = ./coverage
 
-EM_VERSION = 3.1.0
+EM_VERSION = 3.1.1
 EM_OPTS = --rm -w /$(SRC) -v $$PWD:/$(SRC) emscripten/emsdk:$(EM_VERSION)
 EM_DOCKER = docker run -u $(shell id -u):$(shell id -g) $(EM_OPTS)
 EM_PODMAN = podman run $(EM_OPTS)
