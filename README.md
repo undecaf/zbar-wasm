@@ -27,7 +27,7 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
 
 + A simple example: [on GitHub](https://undecaf.github.io/zbar-wasm/example/) 
   ([source code](https://github.com/undecaf/zbar-wasm/tree/master/docs/example)),
-  [on CodePen](https://codepen.io/undecaf/pen/ZEXmqdB),
+  [on CodePen](https://codepen.io/undecaf/pen/ZEXmqdB)
   
 + A polyfill for the [`BarcodeDetector` Web API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector):
   [on GitHub](https://undecaf.github.io/barcode-detector-polyfill/example/)

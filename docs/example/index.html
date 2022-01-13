@@ -9,66 +9,9 @@
 
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
+  <link rel="stylesheet" href="css/main.css">
+
   <link rel="icon" type="image/png" href="img/favicon.png">
-
-  <style>
-      .container {
-          margin-top: 1em;
-      }
-
-      h5, p {
-          margin-top: 0.5em;
-      }
-
-      label {
-          display: inline-block;
-      }
-
-      .viewport {
-          display: inline-block;
-          position: relative;
-      }
-
-      img, video, #note {
-          display: none;
-          max-width: 100%;
-      }
-
-      #imgUrl {
-          width: 25em;
-          max-width: 100%;
-      }
-
-      #imgUrl.active {
-          color: #ffffff;
-          background-color: #33C3F0;
-      }
-
-      #imgUrl.active ~ .viewport > #img,
-      #imgUrl.active ~ #note,
-      #imgBtn.button-primary ~ .viewport > #img,
-      #videoBtn.button-primary ~ .viewport > #video {
-          display: block;
-      }
-
-      #canvas {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          height: 100%;
-      }
-
-      #encoding {
-          margin-right: 1em;
-      }
-
-      pre {
-          font-size: 1.35rem;
-          white-space: pre-wrap;
-          word-wrap: break-word;
-      }
-  </style>
 </head>
 
 <body>
@@ -105,141 +48,17 @@
 
   <h5>Result</h5>
 
+  <p id="timing">
+    <code>drawImage()</code>: <span id='drawImageTime'></span> ms<br>
+    <code>getImageData()</code>: <span id='getImageDataTime'></span> ms<br>
+    <code>scanImageData()</code>: <span id='scanImageDataTime'></span> ms
+  </p>
+
   <pre id="result"></pre>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm/dist/index.js"></script>
-
-<script>
-    const el = {}
-
-    document
-        .querySelectorAll('[id]')
-        .forEach(element => el[element.id] = element)
-
-    let timeoutId = null;
-
-
-    function detect(source) {
-      const
-        canvas = el.canvas,
-        ctx = canvas.getContext('2d');
-
-      canvas.width = source.naturalWidth || source.videoWidth || source.width
-        canvas.height = source.naturalHeight || source.videoHeight || source.height
-
-        if (canvas.height && canvas.width) {
-            ctx.drawImage(source, 0, 0)
-
-            return zbarWasm
-                .scanImageData(ctx.getImageData(0, 0, canvas.width, canvas.height))
-                .then(symbols => {
-                  symbols.forEach(symbol => {
-                    const lastPoint = symbol.points[symbol.points.length - 1]
-                    ctx.moveTo(lastPoint.x, lastPoint.y)
-                    symbol.points.forEach(point => ctx.lineTo(point.x, point.y))
-
-                    ctx.lineWidth = Math.max(Math.min(canvas.height, canvas.width) / 100, 1)
-                    ctx.strokeStyle = '#00e00060'
-                    ctx.stroke()
-                  })
-
-                    symbols.forEach(s => s.rawValue = s.decode(el.encoding.value))
-
-                    if (!el.details.checked) {
-                        symbols.forEach(s => {
-                            delete s.type
-                            delete s.data
-                            delete s.points
-                            delete s.time
-                            delete s.cacheCount
-                        })
-                    }
-                    el.result.innerText = JSON.stringify(symbols, null, 2)
-                })
-
-        } else {
-            el.result.innerText = 'Source not ready'
-            return Promise.resolve()
-        }
-    }
-
-
-    function detectImg() {
-        detectVideo(false)
-
-        if (el.video.srcObject) {
-            el.video.srcObject.getTracks().forEach(track => track.stop())
-            el.video.srcObject = null
-        }
-
-        // FF needs some time to properly update decode()
-        setTimeout(() => el.img.decode().then(() => detect(el.img)), 100)
-    }
-
-
-    function detectVideo(active) {
-        if (active) {
-            detect(el.video)
-              .then(() => timeoutId = setTimeout(() => detectVideo(true), 100))
-
-        } else {
-            clearTimeout(timeoutId)
-            timeoutId = null
-        }
-    }
-
-
-    function onUrlActive() {
-        if (el.imgUrl.validity.valid) {
-            el.imgBtn.className = el.videoBtn.className = ''
-            el.imgUrl.className = 'active'
-
-            el.img.src = el.imgUrl.value
-            detectImg()
-        }
-    }
-
-    el.imgUrl.addEventListener('change', onUrlActive)
-    el.imgUrl.addEventListener('focus', onUrlActive)
-
-
-    el.fileInput.addEventListener('change', event => {
-        el.imgUrl.className = el.videoBtn.className = ''
-        el.imgBtn.className = 'button-primary'
-
-        el.img.src = URL.createObjectURL(el.fileInput.files[0])
-        el.fileInput.value = null
-        detectImg()
-    })
-
-
-    el.imgBtn.addEventListener('click', event => {
-        el.fileInput.dispatchEvent(new MouseEvent('click'))
-    })
-
-
-    el.videoBtn.addEventListener('click', event => {
-        if (!timeoutId) {
-            navigator.mediaDevices.getUserMedia({ audio: false, video: { facingMode: 'environment' } })
-                .then(stream => {
-                    el.imgUrl.className = el.imgBtn.className = ''
-                    el.videoBtn.className = 'button-primary'
-
-                    el.video.srcObject = stream
-                    detectVideo(true)
-                })
-                .catch(error => {
-                    el.result.innerText = JSON.stringify(error)
-                })
-
-        } else {
-            el.imgUrl.className = el.imgBtn.className = el.videoBtn.className = ''
-
-            detectVideo(false)
-        }
-    })
-</script>
+<script src="js/main.js"></script>
 
 </body>
 </html>
