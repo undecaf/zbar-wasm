@@ -42,12 +42,15 @@ export class ZBarImage extends CppObject {
     if (len * 4 !== data.byteLength) {
       throw Error('dataBuf does not match width and height');
     }
-    const buf = inst._malloc(len);
-    for (let i = 0; i < len; ++i) {
-      const r = data[i * 4];
-      const g = data[i * 4 + 1];
-      const b = data[i * 4 + 2];
-      heap[buf + i] = (r * 19595 + g * 38469 + b * 7472) >> 16;
+    const
+      buf = inst._malloc(len),
+      bufEnd = buf + len;
+    for (let i = buf, j = 0; i < bufEnd; i++, j += 4) {
+      heap[i] = (
+        data[j] * 19595 +
+        data[j + 1] * 38469 +
+        data[j + 2] * 7472
+      ) >> 16;
     }
     const ptr = inst._Image_create(
       width,
