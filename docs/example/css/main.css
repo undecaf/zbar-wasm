@@ -54,4 +54,5 @@ pre {
     font-size: 1.35rem;
     white-space: pre-wrap;
     word-wrap: break-word;
+    margin-top: 0;
 }

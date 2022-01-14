@@ -1,6 +1,6 @@
 const
     el = {},
-    useOffscreenCanvas = isOffscreenCanvasWorking();
+    usingOffscreenCanvas = isOffscreenCanvasWorking();
 
 document
     .querySelectorAll('[id]')
@@ -8,7 +8,10 @@ document
 
 let
     offCanvas,
+    afterPreviousCallFinished,
     requestId = null;
+
+el.usingOffscreenCanvas.innerText = usingOffscreenCanvas ? 'yes' : 'no'
 
 
 function isOffscreenCanvasWorking() {
@@ -35,7 +38,7 @@ function detect(source) {
         ctx = canvas.getContext('2d');
 
     function getOffCtx2d(width, height) {
-        if (useOffscreenCanvas) {
+        if (usingOffscreenCanvas) {
             if (!offCanvas || (offCanvas.width !== width) || (offCanvas.height !== height)) {
                 // Only resizing the canvas caused Chromium to become progressively slower
                 offCanvas = new OffscreenCanvas(width, height)
@@ -87,10 +90,13 @@ function detect(source) {
 
                 el.result.innerText = JSON.stringify(symbols, null, 2)
 
+                el.waitingTime.innerText = formatNumber(afterFunctionCalled - afterPreviousCallFinished)
                 el.drawImageTime.innerText = formatNumber(afterDrawImage - afterFunctionCalled)
                 el.getImageDataTime.innerText = formatNumber(afterGetImageData - afterDrawImage)
                 el.scanImageDataTime.innerText = formatNumber(afterScanImageData - afterGetImageData)
                 el.timing.className = 'visible'
+
+                afterPreviousCallFinished = performance.now()
             })
 
     } else {

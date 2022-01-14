@@ -48,13 +48,19 @@
 
   <h5>Result</h5>
 
-  <p id="timing">
-    <code>drawImage()</code>: <span id='drawImageTime'></span> ms<br>
-    <code>getImageData()</code>: <span id='getImageDataTime'></span> ms<br>
-    <code>scanImageData()</code>: <span id='scanImageDataTime'></span> ms
-  </p>
+  <div class="row">
+    <pre id="result" class="six columns"></pre>
 
-  <pre id="result"></pre>
+    <div class="six columns">
+      <div id="timing">
+        Using <code>OffscreenCanvas</code> for image transfer: <span id="usingOffscreenCanvas"></span><br>
+        Time since previous scan: <span id="waitingTime"></span> ms<br>
+        <code>drawImage()</code>: <span id="drawImageTime"></span> ms<br>
+        <code>getImageData()</code>: <span id="getImageDataTime"></span> ms<br>
+        <code>scanImageData()</code>: <span id="scanImageDataTime"></span> ms
+      </div>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm/dist/index.js"></script>
