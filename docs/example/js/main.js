@@ -1,10 +1,24 @@
-const el = {}
+const
+    el = {},
+    useOffscreenCanvas = isOffscreenCanvasWorking();
 
 document
     .querySelectorAll('[id]')
     .forEach(element => el[element.id] = element)
 
-let requestId = null;
+let
+    offCanvas,
+    requestId = null;
+
+
+function isOffscreenCanvasWorking() {
+    try {
+        return Boolean((new OffscreenCanvas(1, 1)).getContext('2d'))
+
+    } catch {
+        return false
+    }
+}
 
 
 function formatNumber(number, fractionDigits = 1) {
@@ -20,15 +34,28 @@ function detect(source) {
         canvas = el.canvas,
         ctx = canvas.getContext('2d');
 
+    function getOffCtx2d(width, height) {
+        if (useOffscreenCanvas) {
+            if (!offCanvas || (offCanvas.width !== width) || (offCanvas.height !== height)) {
+                // Only resizing the canvas caused Chromium to become progressively slower
+                offCanvas = new OffscreenCanvas(width, height)
+            }
+
+            return offCanvas.getContext('2d')
+        }
+    }
+
     canvas.width = source.naturalWidth || source.videoWidth || source.width
     canvas.height = source.naturalHeight || source.videoHeight || source.height
 
     if (canvas.height && canvas.width) {
-        ctx.drawImage(source, 0, 0)
+        const offCtx = getOffCtx2d(canvas.width, canvas.height) || ctx
+
+        offCtx.drawImage(source, 0, 0)
 
         const
             afterDrawImage = performance.now(),
-            imageData = ctx.getImageData(0, 0, canvas.width, canvas.height),
+            imageData = offCtx.getImageData(0, 0, canvas.width, canvas.height),
             afterGetImageData = performance.now();
 
         return zbarWasm
