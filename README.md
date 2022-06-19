@@ -200,7 +200,7 @@ sources of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar)
 to [WebAssembly](https://webassembly.org/). It also compiles and bundles the TypeScript glue code
 and runs the tests in Node.js on the host machine.
 
-If you prefer [Podman](https://podman.io/) as container engine then the provided `Makefile` need
+If you prefer [Podman](https://podman.io/) as container engine then the provided `Makefile` needs
 to be edited before running `make`: replace the line
 
 ```
