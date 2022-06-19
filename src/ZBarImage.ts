@@ -10,13 +10,14 @@ export class ZBarImage extends CppObject {
     sequence_num: number = 0
   ): Promise<ZBarImage> {
     const inst = await getInstance();
-    const heap = inst.HEAPU8;
     const data = new Uint8Array(dataBuf);
     const len = width * height;
     if (len !== data.byteLength) {
       throw Error('dataBuf does not match width and height');
     }
-    const buf = inst._malloc(len);
+    const
+      buf = inst._malloc(len),
+      heap = inst.HEAPU8;
     heap.set(data, buf);
     const ptr = inst._Image_create(
       width,
@@ -36,7 +37,6 @@ export class ZBarImage extends CppObject {
     sequence_num: number = 0
   ): Promise<ZBarImage> {
     const inst = await getInstance();
-    const heap = inst.HEAPU8;
     const data = new Uint8Array(dataBuf);
     const len = width * height;
     if (len * 4 !== data.byteLength) {
@@ -44,7 +44,8 @@ export class ZBarImage extends CppObject {
     }
     const
       buf = inst._malloc(len),
-      bufEnd = buf + len;
+      bufEnd = buf + len,
+      heap = inst.HEAPU8;
     for (let i = buf, j = 0; i < bufEnd; i++, j += 4) {
       heap[i] = (
         data[j] * 19595 +

@@ -7,5 +7,5 @@ module.exports = {
         '\\.wasm$': './test/jestFileTransformer.cjs',
     },
     testEnvironment: 'node',
-    testTimeout: 10000,
+    testTimeout: 15000,
 }

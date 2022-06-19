@@ -1,7 +1,8 @@
 import { ImageFile, imageFiles } from './imageFiles';
 import { ZBarImage, ZBarScanner } from '../dist/main.cjs';
 
-const singleBarcodes = [ 'codabar', 'code_39', 'code_93', 'code_128', 'databar', 'ean_13', 'itf', 'qr_code' ];
+const singleBarcodes =
+  [ 'codabar', 'code_39', 'code_93', 'code_128', 'databar', 'ean_13', 'itf', 'qr_code', 'qr_code-200mb' ];
 
 
 test('ZBarScanner created', async () => {

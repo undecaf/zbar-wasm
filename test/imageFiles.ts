@@ -159,4 +159,22 @@ export const imageFiles: Record<string, ImageFile> = {
         )
       ]
     ),
+
+  'qr_code-200mb':
+    new ImageFile(
+      'qr_code-200mb',
+      [
+        new ExpectedSymbol(
+          ZBarSymbolType.ZBAR_QRCODE,
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+          ZBarOrientation.ZBAR_ORIENT_UP,
+          [
+            { x: 1870, y: 1870 },
+            { x: 1870, y: 2130 },
+            { x: 2130, y: 2130 },
+            { x: 2130, y: 1870 }
+          ]
+        )
+      ]
+    ),
 };
