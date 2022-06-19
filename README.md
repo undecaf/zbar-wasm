@@ -51,7 +51,7 @@ An example that scans a static image file:
   <pre id="result"></pre>
 
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm/dist/main.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.11/dist/main.js'
 
     (async () => {
       const
@@ -85,7 +85,7 @@ Almost identical to the snippet above, just replace the lines
 ```html
     ⁝
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm/dist/main.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.11/dist/main.js'
     ⁝
 ```
 
@@ -93,7 +93,7 @@ with
 
 ```html
     ⁝
-  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.11/dist/index.js"></script>
   <script>
     ⁝
 ```
@@ -104,9 +104,9 @@ with
 Installing:
 
 ```shell script
-$ npm install @undecaf/zbar-wasm
+$ npm install @undecaf/zbar-wasm@0.9.11
     or
-$ yarn add @undecaf/zbar-wasm
+$ yarn add @undecaf/zbar-wasm@0.9.11
 ```
 
 Using:
