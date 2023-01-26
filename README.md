@@ -4,6 +4,7 @@
 ![Open issues](https://badgen.net/github/open-issues/undecaf/zbar-wasm)
 ![Vulnerabilities](https://snyk.io/test/npm/@undecaf/zbar-wasm/badge.svg)
 ![Total downloads](https://badgen.net/npm/dt/@undecaf/zbar-wasm)
+[![](https://data.jsdelivr.com/v1/package/npm/@undecaf/zbar-wasm/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@undecaf/zbar-wasm)
 ![License](https://badgen.net/github/license/undecaf/zbar-wasm)
 
 This project was forked from [ZBar.wasm](https://github.com/samsam2310/zbar.wasm),
@@ -51,7 +52,7 @@ An example that scans a static image file:
   <pre id="result"></pre>
 
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.11/dist/main.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.12/dist/main.js'
 
     (async () => {
       const
@@ -85,7 +86,7 @@ Almost identical to the snippet above, just replace the lines
 ```html
     ⁝
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.11/dist/main.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.12/dist/main.js'
     ⁝
 ```
 
@@ -93,7 +94,7 @@ with
 
 ```html
     ⁝
-  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.11/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.12/dist/index.js"></script>
   <script>
     ⁝
 ```
@@ -104,9 +105,9 @@ with
 Installing:
 
 ```shell script
-$ npm install @undecaf/zbar-wasm@0.9.11
+$ npm install @undecaf/zbar-wasm@0.9.12
     or
-$ yarn add @undecaf/zbar-wasm@0.9.11
+$ yarn add @undecaf/zbar-wasm@0.9.12
 ```
 
 Using:
@@ -219,6 +220,7 @@ EM_ENGINE = $(EM_PODMAN)
 + [samsam2310]() for providing invaluable information in his [zbar.wasm](https://github.com/samsam2310/zbar.wasm) repository
 + [mchehab](https://github.com/mchehab) for maintaining [zbar](https://github.com/mchehab/zbar)
 + the [emscripten](https://emscripten.org/) folks for their compiler toolchain 
++ the [contributors](https://github.com/undecaf/zbar-wasm/graphs/contributors) to this package
 
 
 ## License

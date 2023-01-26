@@ -40,7 +40,8 @@ export default [
         // ES6 module and <script type="module">
         input,
         output: {
-            file: pkg.exports.default,
+            // Must use output.dir since Rollup will create a polyfill file
+            dir: pkg.exports.default + '/../',
             format: 'esm',
             generatedCode: 'es2015',
             sourcemap: true,
