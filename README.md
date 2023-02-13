@@ -1,10 +1,10 @@
 # A WebAssembly build of the ZBar Bar Code Reader
 
-![Install size](https://badgen.net/packagephobia/install/@undecaf/zbar-wasm)
+![Install size](https://badgen.net/packagephobia/install/@undecaf/zbar-wasm?color=42cc24)
 ![Open issues](https://badgen.net/github/open-issues/undecaf/zbar-wasm)
 ![Vulnerabilities](https://snyk.io/test/npm/@undecaf/zbar-wasm/badge.svg)
 ![Total downloads](https://badgen.net/npm/dt/@undecaf/zbar-wasm)
-[![](https://data.jsdelivr.com/v1/package/npm/@undecaf/zbar-wasm/badge?style=rounded)](https://www.jsdelivr.com/package/npm/@undecaf/zbar-wasm)
+![Hits/month](https://badgen.net/jsdelivr/hits/npm/@undecaf/zbar-wasm)
 ![License](https://badgen.net/github/license/undecaf/zbar-wasm)
 
 This project was forked from [ZBar.wasm](https://github.com/samsam2310/zbar.wasm),
