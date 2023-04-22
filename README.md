@@ -31,8 +31,8 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
   [on CodePen](https://codepen.io/undecaf/pen/ZEXmqdB)
   
 + A polyfill for the [`BarcodeDetector` Web API](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector):
-  [on GitHub](https://undecaf.github.io/barcode-detector-polyfill/example/)
-  ([source code](https://github.com/undecaf/barcode-detector-polyfill/tree/master/example) 
+  [on GitHub](https://undecaf.github.io/barcode-detector-polyfill/example-loaded/)
+  ([source code](https://github.com/undecaf/barcode-detector-polyfill/tree/master/example-loaded) 
   with build scripts for Rollup and esbuild),
   [on CodePen](https://codepen.io/undecaf/pen/LYzXXzg)
   
@@ -52,7 +52,7 @@ An example that scans a static image file:
   <pre id="result"></pre>
 
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.12/dist/main.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.13/dist/main.js'
 
     (async () => {
       const
@@ -86,7 +86,7 @@ Almost identical to the snippet above, just replace the lines
 ```html
     ⁝
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.12/dist/main.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.13/dist/main.js'
     ⁝
 ```
 
@@ -94,7 +94,7 @@ with
 
 ```html
     ⁝
-  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.12/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.9.13/dist/index.js"></script>
   <script>
     ⁝
 ```
@@ -105,9 +105,9 @@ with
 Installing:
 
 ```shell script
-$ npm install @undecaf/zbar-wasm@0.9.12
+$ npm install @undecaf/zbar-wasm@0.9.13
     or
-$ yarn add @undecaf/zbar-wasm@0.9.12
+$ yarn add @undecaf/zbar-wasm@0.9.13
 ```
 
 Using:
@@ -154,16 +154,6 @@ This must be observed when bundling zbar-wasm or deploying it to a server:
   by the browser.
 
 
-### Licensing considerations
-
-Please note that zbar-wasm is licensed under the LGPL because it is derived from an LGPL-licensed work.
-Therefore, bundling zbar-wasm imposes the LGPL on the bundles, too.
-
-If you need a more liberal license for your work then the [BarcodeDetector polyfill](https://www.npmjs.com/package/@undecaf/barcode-detector-polyfill)
-package might be an option. It does not bundle zbar-wasm but loads it at runtime (as a library), and it is under the MIT license.
-As an additional benefit it provides a simpler and more flexible API than zbar-wasm.
-
-
 ## API documentation
 
 Owing to the predecessor of this project, [samsam2310/zbar.wasm](https://github.com/samsam2310/zbar.wasm),
@@ -177,6 +167,13 @@ conflicts with built-in JavaScript class names:
 + `Symbol` &rarr; `ZBarSymbol`
 + `Image` &rarr; `ZBarImage`
 + `ImageScanner` &rarr; `ZBarScanner`
+
+
+## [`BarcodeDetector`](https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector) Web API
+
+The [BarcodeDetector polyfill](https://www.npmjs.com/package/@undecaf/barcode-detector-polyfill)
+package (in [this repository](https://github.com/undecaf/zbar-wasm), by the same author) is based on 
+`zbar-wasm` but provides a standardized, higher-level and more flexible API.
 
 
 ## Building zbar-wasm from source
