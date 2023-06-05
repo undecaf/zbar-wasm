@@ -14,6 +14,8 @@ EM_OPTS = --rm -w /$(SRC) -v $$PWD:/$(SRC) emscripten/emsdk:$(EM_VERSION)
 EM_DOCKER = docker run -u $(shell id -u):$(shell id -g) $(EM_OPTS)
 EM_PODMAN = podman run $(EM_OPTS)
 EM_ENGINE = $(EM_DOCKER)
+
+# See https://emscripten.org/docs/tools_reference/emcc.html
 EMCC = $(EM_ENGINE) emcc
 EMMAKE = $(EM_ENGINE) emmake
 EMCONFIG = $(EM_ENGINE) emconfigure
@@ -21,6 +23,8 @@ EMCONFIG = $(EM_ENGINE) emconfigure
 ZBAR_DEPS = $(ZBAR_SRC)/make.done
 ZBAR_OBJS = $(ZBAR_SRC)/zbar/*.o $(ZBAR_SRC)/zbar/*/*.o
 ZBAR_INC = -I $(ZBAR_SRC)/include/ -I $(ZBAR_SRC)/
+
+# See https://github.com/emscripten-core/emscripten/blob/main/src/settings.js
 EMCC_FLAGS = -Oz -Wall -Werror -s ALLOW_MEMORY_GROWTH=1 \
 	-s EXPORTED_FUNCTIONS="['_malloc','_free']" \
 	-s MODULARIZE=1 -s EXPORT_NAME=zbarWasm

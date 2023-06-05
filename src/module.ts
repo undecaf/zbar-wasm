@@ -1,18 +1,26 @@
 import { ZBarImage } from './ZBarImage';
 import { ZBarScanner } from './ZBarScanner';
 import { ZBarSymbol } from './ZBarSymbol';
+import { ZBarConfigType, ZBarSymbolType } from './enum';
 
-const defaultScannerPromise = ZBarScanner.create();
+// Returns a new ZBarScanner instance that delegates QR code text decoding
+// to the native TextDecoder (fixes #7: Issue with utf-8)
 export const getDefaultScanner = async () => {
-  return await defaultScannerPromise;
+  const scanner = await ZBarScanner.create();
+  scanner.setConfig(ZBarSymbolType.ZBAR_NONE, ZBarConfigType.ZBAR_CFG_BINARY, 1);
+  return scanner;
 };
+
+let defaultScanner: ZBarScanner;
 
 const scanImage = async (
   image: ZBarImage,
   scanner?: ZBarScanner
 ): Promise<Array<ZBarSymbol>> => {
   if (scanner === undefined) {
-    scanner = await defaultScannerPromise;
+    // Create the default scanner lazily
+    scanner = defaultScanner || await getDefaultScanner();
+    defaultScanner = scanner;
   }
   const res = scanner.scan(image);
   if (res < 0) {

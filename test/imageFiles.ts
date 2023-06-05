@@ -8,11 +8,11 @@ class ExpectedSymbol {
     readonly decoded: string;
     readonly orientation: ZBarOrientation;
     readonly points?: Array<{ x: number, y: number }>;
-  
+
     constructor(
-      type: ZBarSymbolType, 
-      decoded: string, 
-      orientation: ZBarOrientation, 
+      type: ZBarSymbolType,
+      decoded: string,
+      orientation: ZBarOrientation,
       points?: Array<{ x: number, y: number }>
     ) {
       this.type = type;
@@ -20,20 +20,20 @@ class ExpectedSymbol {
       this.orientation = orientation;
       this.points = points;
     }
-  
+
   }
-  
-  
+
+
   export class ImageFile {
-  
+
     readonly path: string;
     readonly expectedSymbols: Array<ExpectedSymbol>;
-  
+
     constructor(basename: string, expectedSymbols: Array<ExpectedSymbol>) {
       this.path = `${__dirname}/../test/img/${basename}.png`;
       this.expectedSymbols = expectedSymbols;
     }
-  
+
     async loadImageData(): Promise<ImageData> {
         const image = await loadImage(this.path);
         const canvas = createCanvas(image.width, image.height);
@@ -77,8 +77,8 @@ class ExpectedSymbol {
         expect(symbols).toHaveLength(this.expectedSymbols.length);
     }
   }
-  
-  
+
+
 export const imageFiles: Record<string, ImageFile> = {
   'codabar':
     new ImageFile(
@@ -173,6 +173,42 @@ export const imageFiles: Record<string, ImageFile> = {
             { x: 1870, y: 2130 },
             { x: 2130, y: 2130 },
             { x: 2130, y: 1870 }
+          ]
+        )
+      ]
+    ),
+
+  'qr_code-utf-8-1':
+    new ImageFile(
+      'qr_code-utf-8-1',
+      [
+        new ExpectedSymbol(
+          ZBarSymbolType.ZBAR_QRCODE,
+          'ÄÖÜ äöü ß ÁÉÍÓÚ áéíóú ÀÈÌÒÙ àéíóú',
+          ZBarOrientation.ZBAR_ORIENT_UP,
+          [
+            { x: 10, y: 10 },
+            { x: 10, y: 156 },
+            { x: 156, y: 156 },
+            { x: 156, y: 10 }
+          ]
+        )
+      ]
+    ),
+
+  'qr_code-utf-8-2':
+    new ImageFile(
+      'qr_code-utf-8-2',
+      [
+        new ExpectedSymbol(
+          ZBarSymbolType.ZBAR_QRCODE,
+          'Thôn Hoan Trung, Chiến Thắng, Bắc Sơn, Lạng Sơn',
+          ZBarOrientation.ZBAR_ORIENT_UP,
+          [
+            { x: 26, y: 26 },
+            { x: 26, y: 283 },
+            { x: 282, y: 284 },
+            { x: 281, y: 26 }
           ]
         )
       ]
