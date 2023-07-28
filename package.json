@@ -1,6 +1,6 @@
 {
   "name": "@undecaf/zbar-wasm",
-  "version": "0.9.14",
+  "version": "0.9.15",
   "description": "A WebAssembly build of the C/C++ ZBar barcode reader",
   "type": "module",
   "main": "./dist/main.cjs",
@@ -14,7 +14,8 @@
     "dist/*.js",
     "dist/*.cjs",
     "dist/*.d.ts",
-    "dist/*.wasm"
+    "dist/*.wasm",
+    "dist/*.js.map"
   ],
   "types": "./dist/main.d.ts",
   "typings": "./dist/main.d.ts",
