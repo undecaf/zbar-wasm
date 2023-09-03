@@ -1,0 +1,15 @@
+{
+    "include": [ "./src/*.ts" ],
+    "compilerOptions": {
+        "target": "ES2016",
+        "module": "Nodenext",
+        "rootDir": "./src",
+        "moduleResolution": "Node",
+        "baseUrl": "./src",
+        "declaration": false,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "noImplicitAny": false,
+        "skipLibCheck": true
+    }
+}

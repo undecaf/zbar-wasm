@@ -1,0 +1,5 @@
+{
+  "src": "tests/bundling-browser.test.js",
+  "browsers": [ "chromium:headless" ],
+  "hostname": "localhost"
+}

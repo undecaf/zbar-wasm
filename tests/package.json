@@ -1,0 +1,35 @@
+{
+  "name": "zbar-wasm-test",
+  "version": "0.10.0",
+  "type": "module",
+  "scripts": {
+    "prebuild:webpack": "rimraf build/*/webpack",
+    "build:webpack": "webpack --config webpack.config.cjs",
+    "prebuild:rollup": "rimraf build/*/rollup",
+    "build:rollup": "rollup --config rollup.config.js",
+    "prebuild:esbuild": "rimraf build/*/esbuild",
+    "build:esbuild": "node esbuild.config.js"
+  },
+  "dependencies": {
+    "@undecaf/zbar-wasm": "../undecaf-zbar-wasm-0.10.0.tgz",
+    "canvas": "^2.11.2"
+  },
+  "devDependencies": {
+    "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@types/node": "^20.4.9",
+    "@web/rollup-plugin-import-meta-assets": "^2.0.2",
+    "copy-webpack-plugin": "^11.0.0",
+    "esbuild": "^0.19.2",
+    "esbuild-plugin-copy": "^2.1.1",
+    "rimraf": "^5.0.1",
+    "rollup": "^3.27.2",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-ts": "^3.4.2",
+    "ts-loader": "^9.4.4",
+    "tslib": "^2.6.1",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}

@@ -1,82 +1,84 @@
-const { createCanvas, loadImage } = require('canvas');
-import { ZBarSymbolType, ZBarOrientation, ZBarSymbol } from '../dist/main.cjs';
+import { createCanvas, loadImage } from 'canvas'
+import { ZBarSymbolType, ZBarOrientation, ZBarSymbol } from '../dist/main.cjs'
+import * as process from 'process';
 
 
 class ExpectedSymbol {
 
-    readonly type: ZBarSymbolType;
-    readonly decoded: string;
-    readonly orientation: ZBarOrientation;
-    readonly points?: Array<{ x: number, y: number }>;
+    readonly type: typeof ZBarSymbolType
+    readonly decoded: string
+    readonly orientation: typeof ZBarOrientation
+    readonly points?: Array<{ x: number, y: number }>
 
     constructor(
-      type: ZBarSymbolType,
+      type: typeof ZBarSymbolType,
       decoded: string,
-      orientation: ZBarOrientation,
+      orientation: typeof ZBarOrientation,
       points?: Array<{ x: number, y: number }>
     ) {
-      this.type = type;
-      this.decoded = decoded;
-      this.orientation = orientation;
-      this.points = points;
+      this.type = type
+      this.decoded = decoded
+      this.orientation = orientation
+      this.points = points
     }
 
   }
 
 
-  export class ImageFile {
+export class ImageFile {
 
-    readonly path: string;
-    readonly expectedSymbols: Array<ExpectedSymbol>;
+  readonly path: string;
+  readonly expectedSymbols: Array<ExpectedSymbol>;
 
-    constructor(basename: string, expectedSymbols: Array<ExpectedSymbol>) {
-      this.path = `${__dirname}/../test/img/${basename}.png`;
-      this.expectedSymbols = expectedSymbols;
-    }
-
-    async loadImageData(): Promise<ImageData> {
-        const image = await loadImage(this.path);
-        const canvas = createCanvas(image.width, image.height);
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(image, 0, 0);
-        return ctx.getImageData(0, 0, image.width, image.height);
-    }
-
-    async loadImageDataGray(): Promise<ImageData> {
-        const imageData = await this.loadImageData();
-        const len = imageData.width * imageData.height;
-        const data = imageData.data;
-        const buffer = new Uint8ClampedArray(len);
-
-        for (let i = 0; i < len; i++) {
-          const r = data[i * 4];
-          const g = data[i * 4 + 1];
-          const b = data[i * 4 + 2];
-          buffer[i] = (r * 19595 + g * 38469 + b * 7472) >> 16;
-        }
-
-        return {
-            data: buffer,
-            width: imageData.width,
-            height: imageData.height,
-        };
-    }
-
-    expect(symbols: Array<ZBarSymbol>) {
-        this.expectedSymbols.forEach(e => {
-            const symbol: ZBarSymbol | undefined = symbols.find(s => s.decode() === e.decoded);
-            expect(symbol).toBeDefined();
-            expect(symbol!.type).toBe(e.type);
-            expect(symbol!.decode()).toBe(e.decoded);
-            expect(symbol!.orientation).toBe(e.orientation);
-            if (e.points) {
-              expect(symbol!.points).toEqual(e.points);
-            }
-        })
-
-        expect(symbols).toHaveLength(this.expectedSymbols.length);
-    }
+  constructor(basename: string, expectedSymbols: Array<ExpectedSymbol>) {
+    this.path = `${process.cwd()}/tests/img/${basename}.png`;
+    this.expectedSymbols = expectedSymbols;
   }
+
+  async loadImageData(): Promise<ImageData> {
+      const image = await loadImage(this.path);
+      const canvas = createCanvas(image.width, image.height);
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(image, 0, 0);
+    return ctx.getImageData(0, 0, image.width, image.height);
+  }
+
+  async loadImageDataGray(): Promise<ImageData> {
+      const imageData = await this.loadImageData();
+      const len = imageData.width * imageData.height;
+      const data = imageData.data;
+      const buffer = new Uint8ClampedArray(len);
+
+      for (let i = 0; i < len; i++) {
+        const r = data[i * 4];
+        const g = data[i * 4 + 1];
+        const b = data[i * 4 + 2];
+        buffer[i] = (r * 19595 + g * 38469 + b * 7472) >> 16;
+      }
+
+      return {
+          data: buffer,
+          width: imageData.width,
+          height: imageData.height,
+          colorSpace: "srgb"
+      };
+  }
+
+  expect(symbols: Array<ZBarSymbol>) {
+      this.expectedSymbols.forEach(e => {
+          const symbol: ZBarSymbol | undefined = symbols.find(s => s.decode() === e.decoded);
+          expect(symbol).toBeDefined();
+          expect(symbol!.type).toBe(e.type);
+          expect(symbol!.decode()).toBe(e.decoded);
+          expect(symbol!.orientation).toBe(e.orientation);
+          if (e.points) {
+            expect(symbol!.points).toEqual(e.points);
+          }
+      })
+
+      expect(symbols).toHaveLength(this.expectedSymbols.length);
+  }
+}
 
 
 export const imageFiles: Record<string, ImageFile> = {

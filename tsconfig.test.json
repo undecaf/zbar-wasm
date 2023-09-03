@@ -1,8 +1,17 @@
 {
     /* Options for compiling test code */
     "extends": "./tsconfig.json",
-    "include": ["./test/**/*"],
+    "include": ["./tests/*"],
     "compilerOptions": {
-        "module": "CommonJS"    /* Jest has only experimental ESM support */
+        "paths": {
+            "tslib": [ "./node_modules/tslib/tslib.es6.js" ],
+            "jsdom": [ "./node_modules/jsdom/lib/api.js" ],
+            "canvas": [ "./node_modules/canvas/index.js" ]
+        },
+        "module": "ES2020",
+        "importHelpers": false,
+        "declaration": false,
+        "sourceMap": false,
+        "alwaysStrict": false
     }
 }

@@ -4,8 +4,9 @@ module.exports = {
         'node_modules', 'dist'
     ],
     transform: {
-        '\\.wasm$': './test/jestFileTransformer.cjs',
+        '\\.wasm$': './tests/jestFileTransformer.cjs',
     },
     testEnvironment: 'node',
-    testTimeout: 15000,
+    testTimeout: 5000,
+    testSequencer: './tests/testSequencer.cjs',
 }

@@ -11,7 +11,7 @@ EXPORT zbar_image_scanner_t* ImageScanner_create() {
   return zbar_image_scanner_create();
 }
 
-EXPORT void ImageScanner_destory(zbar_image_scanner_t* scanner) {
+EXPORT void ImageScanner_destory /* sic! */ (zbar_image_scanner_t* scanner) {
   zbar_image_scanner_destroy(scanner);
 }
 
@@ -57,7 +57,7 @@ EXPORT zbar_image_t* Image_create(uint32_t width,
   return image;
 }
 
-EXPORT void Image_destory(zbar_image_t* image) {
+EXPORT void Image_destory /* sic! */ (zbar_image_t* image) {
   zbar_image_destroy(image);
 }
 

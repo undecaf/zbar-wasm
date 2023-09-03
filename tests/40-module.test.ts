@@ -1,16 +1,16 @@
-import { ImageFile, imageFiles } from './imageFiles';
-import { ZBarScanner, scanImageData, scanGrayBuffer, ZBarSymbolType, ZBarConfigType, scanRGBABuffer } from '../dist/main.cjs';
+import { ImageFile, imageFiles } from './imageFiles'
+import { ZBarScanner, scanImageData, scanGrayBuffer, ZBarSymbolType, ZBarConfigType, scanRGBABuffer } from '../dist/main.cjs'
 
-const singleBarcodes = [ 'codabar', 'code_39', 'code_93', 'code_128', 'databar', 'ean_13', 'itf', 'qr_code' ];
-const compositeBarcodes = [ 'code_39x4', 'ean_13+5' ];
+const singleBarcodes = [ 'codabar', 'code_39', 'code_93', 'code_128', 'databar', 'ean_13', 'itf', 'qr_code' ]
+const compositeBarcodes = [ 'code_39x4', 'ean_13+5' ]
 
 
 singleBarcodes.forEach(basename => {
   test('Scanning ImageData', async () => {
-    const imageFile: ImageFile = imageFiles[basename];
-    const imageData: ImageData = await imageFile.loadImageData();
+    const imageFile: ImageFile = imageFiles[basename]
+    const imageData: ImageData = await imageFile.loadImageData()
 
-    const symbols = await scanImageData(imageData);
+    const symbols = await scanImageData(imageData)
 
     imageFile.expect(symbols);
   });
@@ -45,7 +45,7 @@ singleBarcodes.forEach(basename => {
   test('Scanning configured barcode type', async () => {
     const imageFile: ImageFile = imageFiles[basename];
     const imageData: ImageData = await imageFile.loadImageData();
-    
+
     const scanner = await ZBarScanner.create();
     scanner.setConfig(ZBarSymbolType.ZBAR_NONE, ZBarConfigType.ZBAR_CFG_ENABLE, 0);
     imageFile.expectedSymbols

@@ -1,21 +1,21 @@
-import { getInstance, scanGrayBuffer, scanImageData, scanRGBABuffer, ZBarImage, ZBarScanner } from '../dist/main.cjs';
-import { imageFiles } from './imageFiles';
+import { getInstance, scanGrayBuffer, scanImageData, scanRGBABuffer, ZBarImage, ZBarScanner } from '../dist/main.cjs'
+import { imageFiles } from './imageFiles'
 
 
 test('Heap can grow beyond initial size', async () => {
-  const inst = await getInstance();
-  const maxHeapSize = 300000000;
-  const allocSize = Math.floor(inst.HEAPU8.length * 0.9);
-  const allocated: Array<number> = [];
+  const inst = await getInstance()
+  const maxHeapSize = 300000000
+  const allocSize = Math.floor(inst.HEAPU8.length * 0.9)
+  const allocated: Array<number> = []
 
   for (let i = 1, prevPtr = -allocSize; i <= maxHeapSize / allocSize; i++) {
-    const ptr = inst._malloc(allocSize);
-    allocated.push(ptr);
+    const ptr = inst._malloc(allocSize)
+    allocated.push(ptr)
 
-    expect(ptr).toBeGreaterThan(prevPtr + allocSize);
-    expect(inst.HEAPU8.length).toBeGreaterThan(allocSize * i);
+    expect(ptr).toBeGreaterThan(prevPtr + allocSize)
+    expect(inst.HEAPU8.length).toBeGreaterThan(allocSize * i)
 
-    prevPtr = ptr;
+    prevPtr = ptr
   }
 
   allocated.forEach(ptr => inst._free(ptr));

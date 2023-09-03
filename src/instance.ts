@@ -1,16 +1,16 @@
-import zbarJs from 'zbarJs';
-import ZBarInstance from './ZBarInstance';
+import zbarJs from 'zbarJs'
+import type ZBarInstance from './ZBarInstance'
 
-let zbarInstance: ZBarInstance;
+let zbarInstance: ZBarInstance
 
 const zbarInstancePromise = (async () => {
-  zbarInstance = await zbarJs();
+  zbarInstance = await zbarJs()
   if (!zbarInstance) {
-    throw Error('WASM was not loaded');
+    throw Error('WASM was not loaded')
   }
-  return zbarInstance;
-})();
+  return zbarInstance
+})()
 
 export const getInstance = async (): Promise<ZBarInstance> => {
-  return await zbarInstancePromise;
-};
+  return await zbarInstancePromise
+}
