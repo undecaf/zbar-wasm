@@ -157,7 +157,7 @@ This file is part of the package and can be provided at runtime in different way
 
 + It can be loaded from a CDN by browsers.
 + It can be bundled as an asset. That asset should be served to browsers as `application/wasm`
-+ so that it can be compiled in parallel with being received.
+  so that it can be compiled in parallel with being received.
 + zbar-wasm also provides modules that contain `zbar.wasm` as inline data. 
 
 The [package entry points](https://nodejs.org/docs/latest-v16.x/api/packages.html#package-entry-points)
@@ -172,47 +172,14 @@ The build process of zbar-wasm tests bundling with
 The bundler configuration files
 [`tests/{webpack,rollup,esbuild}.config.js`](https://github.com/undecaf/zbar-wasm/tree/master/tests)
 may be used as a reference of how to achieve a particular bundling result. They cover the following 
-combinations of platform, module type and `zbar.wasm` provisioning:
+combinations of platforms, module types and `zbar.wasm` provisioning:
 
-<table>
-<thead>
-<tr>
-<th style='text-align: left;'>Platform &rarr;</th>
-<th colspan='2'>Node.js</th>
-<th colspan='2'>Browser</th>
-</tr>
-<tr>
-<th style='text-align: left;'><code>zbar.wasm</code>&darr;</th>
-<th style='min-width: 10em;'>ESM</th>
-<th style='min-width: 10em;'>CommonJS</th>
-<th style='min-width: 10em;'>ESM</th>
-<th style='min-width: 10em;'>Script</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th style='text-align: left;'>from CDN</th>
-<td></td>
-<td></td>
-<td style='text-align: center;'>:white_check_mark:</td>
-<td style='text-align: center;'>:white_check_mark:</td>
-</tr>
-<tr>
-<th style='text-align: left;'>bundled</th>
-<td style='text-align: center;'>:white_check_mark:</td>
-<td style='text-align: center;'>:white_check_mark:</td>
-<td style='text-align: center;'>:white_check_mark:</td>
-<td></td>
-</tr>
-<tr>
-<th style='text-align: left;'>inlined</th>
-<td style='text-align: center;'>:white_check_mark:</td>
-<td style='text-align: center;'>:white_check_mark:</td>
-<td style='text-align: center;'>:white_check_mark:</td>
-<td style='text-align: center;'>:white_check_mark:</td>
-</tr>
-</tbody>
-</table>
+| `zbar.wasm`       | Node.js module types | Browser module types |
+|:------------------|:--------------------:|:---------------------:|
+| loaded from CDN   |                      |   ESM, plain script   |
+| bundled as asset  |    ESM, CommonJS     |          ESM          |
+| inlined in module |    ESM, CommonJS     |   ESM, plain script   |
+
 
 ## API documentation
 
