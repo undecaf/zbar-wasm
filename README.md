@@ -23,7 +23,7 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
   RGB/grayscale [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) objects
 + Outperforms pure JavaScript barcode scanners
 
-:warning: v0.10.0 contains breaking changes regarding bundling, please refer to section [Bundling/deploying zbar-wasm](#bundling-deploying-zbar-wasm).
+:warning: v0.10.0 contains breaking changes regarding bundling, please refer to section [Bundling/deploying zbar-wasm](#bundlingdeploying-zbar-wasm).
 
 
 ## Examples based on zbar-wasm
@@ -183,10 +183,10 @@ combinations of platform, module type and `zbar.wasm` provisioning:
 </tr>
 <tr>
 <th style='text-align: left;'><code>zbar.wasm</code>&darr;</th>
-<th>ESM</th>
-<th>CommonJS</th>
-<th>ESM</th>
-<th>Script</th>
+<th style='min-width: 10em;'>ESM</th>
+<th style='min-width: 10em;'>CommonJS</th>
+<th style='min-width: 10em;'>ESM</th>
+<th style='min-width: 10em;'>Script</th>
 </tr>
 </thead>
 <tbody>
@@ -194,22 +194,22 @@ combinations of platform, module type and `zbar.wasm` provisioning:
 <th style='text-align: left;'>from CDN</th>
 <td></td>
 <td></td>
-<td>:white_check_mark:</td>
-<td>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
 </tr>
 <tr>
 <th style='text-align: left;'>bundled</th>
-<td>:white_check_mark:</td>
-<td>:white_check_mark:</td>
-<td>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
 <td></td>
 </tr>
 <tr>
 <th style='text-align: left;'>inlined</th>
-<td>:white_check_mark:</td>
-<td>:white_check_mark:</td>
-<td>:white_check_mark:</td>
-<td>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
+<td style='text-align: center;'>:white_check_mark:</td>
 </tr>
 </tbody>
 </table>
