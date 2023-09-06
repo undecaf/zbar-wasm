@@ -138,7 +138,7 @@ import { scanImageData } from '@undecaf/zbar-wasm';
           // @ts-ignore
           symbols = await scanImageData(imageData);
 
-  console.log(ssymbols[0]?.typeName, ymbols[0]?.decode())
+  console.log(symbols[0]?.typeName, symbols[0]?.decode())
 })('https://raw.githubusercontent.com/undecaf/zbar-wasm/master/tests/img/qr_code.png')
 ```
 
