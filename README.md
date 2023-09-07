@@ -23,7 +23,7 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
   RGB/grayscale [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) objects
 + Outperforms pure JavaScript barcode scanners
 
-:warning: v0.10.0 contains breaking changes regarding bundling, please refer to section [Bundling/deploying zbar-wasm](#bundlingdeploying-zbar-wasm).
+:warning: zbar-wasm version 0.10 contains breaking changes with respect to version 0.9, please refer to section [Bundling/deploying zbar-wasm](#bundlingdeploying-zbar-wasm).
 
 
 ## Examples based on zbar-wasm
@@ -54,7 +54,7 @@ An example that scans a static image file:
   <pre id="result"></pre>
 
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.0/dist/main.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.1/dist/index.js'
 
     (async () => {
       const
@@ -88,7 +88,7 @@ Almost identical to the snippet above, just replace the lines
 ```html
     ⁝
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.0/dist/main.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.1/dist/index.js'
     ⁝
 ```
 
@@ -96,7 +96,7 @@ with
 
 ```html
     ⁝
-  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.0/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.1/dist/index.js"></script>
   <script>
     ⁝
 ```
@@ -107,9 +107,9 @@ with
 Installing:
 
 ```shell script
-$ npm install @undecaf/zbar-wasm@0.10.0
+$ npm install @undecaf/zbar-wasm@0.10.1
     or
-$ yarn add @undecaf/zbar-wasm@0.10.0
+$ yarn add @undecaf/zbar-wasm@0.10.1
 ```
 
 Using:
@@ -135,10 +135,9 @@ import { scanImageData } from '@undecaf/zbar-wasm';
 
   const
           imageData = ctx.getImageData(0, 0, img.width, img.height),
-          // @ts-ignore
           symbols = await scanImageData(imageData);
 
-  console.log(symbols[0]?.typeName, symbols[0]?.decode())
+  console.log(ssymbols[0]?.typeName, symbols[0]?.decode())
 })('https://raw.githubusercontent.com/undecaf/zbar-wasm/master/tests/img/qr_code.png')
 ```
 
@@ -152,33 +151,46 @@ const { scanImageData } = require('@undecaf/zbar-wasm');
 
 ### Bundling/deploying zbar-wasm
 
-zbar-wasm delegates barcode scanning to the WebAssembly code in file `zbar.wasm`.
-This file is part of the package and can be provided at runtime in different ways:
+zbar-wasm provides ESM and CommonJS modules for Node.js and browsers. One of them needs to be
+bundled in your application. In any case, barcode scanning is delegated to the WebAssembly code
+in file `zbar.wasm`. At runtime, this file can be provided in different ways depending on the
+bundling configuration and on which zbar-wasm module was emitted by the bundler:
 
 + It can be loaded from a CDN by browsers.
 + It can be bundled as an asset. That asset should be served to browsers as `application/wasm`
   so that it can be compiled in parallel with being received.
-+ zbar-wasm also provides modules that contain `zbar.wasm` as inline data. 
++ Several zbar-wasm modules contain `zbar.wasm` as inline data.
 
-The [package entry points](https://nodejs.org/docs/latest-v16.x/api/packages.html#package-entry-points)
-of zbar-wasm have been chosen so that bundlers will select the 
-appropriate module by default in most cases. `zbar.wasm` as inline data requires an
-[export condition](https://nodejs.org/docs/latest-v16.x/api/packages.html#conditional-exports)
-in the bundler configuration.
+This overview shows which modules are available in zbar-wasm:
 
-The build process of zbar-wasm tests bundling with
-[Webpack](https://webpack.js.org/), [Rollup](https://rollupjs.org/) and 
-[esbuild](https://esbuild.github.io/) and also tests the resulting bundles.
-The bundler configuration files
+| Path in package           | Module type | Node core modules polyfilled<br>(suitable for browsers) | `zbar.wasm` inlined |
+|:--------------------------|:-----------:|:-------------------------------------------------------:|:-------------------:|
+| `/dist/index.mjs`         |     ESM     |                   :heavy_check_mark:                    |                     |
+| `/dist/index.js`          |  CommonJS   |                   :heavy_check_mark:                    |                     |
+| `/dist/main.mjs`          |     ESM     |                                                         |                     |
+| `/dist/main.cjs`          |  CommonJS   |                                                         |                     |
+| `/dist/inlined/index.mjs` |     ESM     |                   :heavy_check_mark:                    | :heavy_check_mark:  |
+| `/dist/inlined/index.js`  |  CommonJS   |                   :heavy_check_mark:                    | :heavy_check_mark:  |
+| `/dist/inlined/main.mjs`  |     ESM     |                                                         | :heavy_check_mark:  |
+| `/dist/inlined/main.cjs`  |  CommonJS   |                                                         | :heavy_check_mark:  |
+
+The [package entry points](https://nodejs.org/docs/latest-v16.x/api/packages.html#package-entry-points) of zbar-wasm have been chosen so that bundlers will emit the 
+appropriate module by default in most cases. However, `zbar.wasm` as inline data requires a suitable 
+[export condition](https://nodejs.org/docs/latest-v16.x/api/packages.html#conditional-exports) in the bundler configuration, typically `'zbar-inlined'`.
+Please refer to the `exports` section of `package.json` for details.
+
+[Building zbar-wasm](#building-zbar-wasm-from-source) runs bundling tests with [Webpack](https://webpack.js.org/), [Rollup](https://rollupjs.org/) and 
+[esbuild](https://esbuild.github.io/) and also tests the resulting bundles. The bundler configuration files
 [`tests/{webpack,rollup,esbuild}.config.js`](https://github.com/undecaf/zbar-wasm/tree/master/tests)
-may be used as a reference of how to achieve a particular bundling result. They cover the following 
-combinations of platforms, module types and `zbar.wasm` provisioning:
+may be used as a reference of how to achieve a particular bundling result. Each of them covers
+the following combinations of platforms, module types and `zbar.wasm` provisioning for the
+respective bundler:
 
-| `zbar.wasm`       | Node.js module types | Browser module types |
-|:------------------|:--------------------:|:---------------------:|
-| loaded from CDN   |                      |   ESM, plain script   |
-| bundled as asset  |    ESM, CommonJS     |          ESM          |
-| inlined in module |    ESM, CommonJS     |   ESM, plain script   |
+| `zbar.wasm`       | Node module types | Browser module types  |
+|:------------------|:-----------------:|:---------------------:|
+| loaded from CDN   |                   | ESM, plain `<script>` |
+| bundled as asset  |   ESM, CommonJS   |          ESM          |
+| inlined in module |   ESM, CommonJS   | ESM, plain `<script>` |
 
 
 ## API documentation
@@ -211,32 +223,34 @@ Prerequisites:
 + GNU `make`, `tar` and `curl`
 + [Docker](https://www.docker.com/) or [Podman](https://podman.io/)
 + [Node.js](https://nodejs.org/) v16+
++ At least one of the [browsers supported by TestCafé](https://testcafe.io/documentation/402828/guides/intermediate-guides/browsers)
 
 To build:
 
-```bash
-$ git clone https://github.com/undecaf/zbar-wasm
-$ cd zbar-wasm
-$ make
-```
-
-The `make` command runs [emscripten](https://emscripten.org/) in a container, compiling the C/C++
-sources of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar)
-to [WebAssembly](https://webassembly.org/). It also compiles and bundles the TypeScript glue code
-and runs the tests in Node.js on the host machine.
-
-If you prefer [Podman](https://podman.io/) as container engine then the provided `Makefile` needs
-to be edited before running `make`: replace the line
-
-```
-EM_ENGINE = $(EM_DOCKER)
-```
-
-with
-
-```
-EM_ENGINE = $(EM_PODMAN)
-```
+- Clone this repository:
+  ```bash
+  $ git clone https://github.com/undecaf/zbar-wasm
+  $ cd zbar-wasm
+  ```
+- Enter your browser(s) in `.testcaferc.json` ([supported browsers](https://testcafe.io/documentation/402828/guides/intermediate-guides/browsers)).
+- Enter two available port numbers in `tests/src/ports.js`.
+- If you prefer [Podman](https://podman.io/) as container engine then replace
+  ```
+  EM_ENGINE = $(EM_DOCKER)
+  ```
+  with
+  ```
+  EM_ENGINE = $(EM_PODMAN)
+  ```
+  in the provided `Makefile`.
+- Run the build process:
+  ```bash
+  $ make
+  ```
+  The `make` command runs [emscripten](https://emscripten.org/) in a container, compiling the C/C++
+  sources of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar)
+  to [WebAssembly](https://webassembly.org/). It also compiles and bundles the TypeScript glue code
+  and runs the tests in Node.js and in the selected browser(s) on the host machine.
 
 
 ## Credits to ...

@@ -20,7 +20,7 @@ module.exports = async () => {
         } = namedBuildConfigs,
         ZBAR_WASM_PKG_NAME = '@undecaf/zbar-wasm',
         // For production, set
-        // ZBAR_WASM_REPOSITORY = `https://cdn.jsdelivr.net/npm/${ZBAR_WASM_PKG_NAME}@0.10.0`,
+        // ZBAR_WASM_REPOSITORY = `https://cdn.jsdelivr.net/npm/${ZBAR_WASM_PKG_NAME}@0.10.1`,
         ZBAR_WASM_REPOSITORY = `http://localhost:${repositoryPort}`,
         ZBAR_WASM = `node_modules/${ZBAR_WASM_PKG_NAME}/dist/zbar.wasm`;
 
@@ -227,7 +227,7 @@ module.exports = async () => {
         },
 
         // Browser ES module with zbar.wasm bundled
-        // TODO Avoid emitting @undecaf/zbar_wasm/index.js unnecessarily
+        // TODO Avoid emitting @undecaf/zbar_wasm/index.js unnecessarily (never loaded by the browser)
         {
             experiments: {
                 outputModule: true,
@@ -276,7 +276,7 @@ module.exports = async () => {
         },
 
         // Browser ES module with zbar.wasm inlined
-        // TODO Avoid emitting @undecaf/zbar_wasm/index.js unnecessarily
+        // TODO Avoid emitting @undecaf/zbar_wasm/index.js unnecessarily (never loaded by the browser)
         {
             entry: webpackBrowserEsmInlined.entryFile,
             externals: {
@@ -370,7 +370,7 @@ module.exports = async () => {
         },
 
         // Browser script with zbar.wasm inlined
-        // TODO Avoid emitting @undecaf/zbar_wasm/index.js unnecessarily
+        // TODO Avoid emitting @undecaf/zbar_wasm/index.js unnecessarily (never loaded by the browser)
         {
             entry: webpackBrowserScriptInlined.entryFile,
             externals: {

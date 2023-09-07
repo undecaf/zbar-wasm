@@ -19,7 +19,7 @@ const
     } = namedBuildConfigs,
     ZBAR_WASM_PKG_NAME = '@undecaf/zbar-wasm',
     // For production, set
-    // ZBAR_WASM_REPOSITORY = `https://cdn.jsdelivr.net/npm/${ZBAR_WASM_PKG_NAME}@0.10.0`,
+    // ZBAR_WASM_REPOSITORY = `https://cdn.jsdelivr.net/npm/${ZBAR_WASM_PKG_NAME}@0.10.1`,
     ZBAR_WASM_REPOSITORY = `http://localhost:${repositoryPort}`,
     ZBAR_WASM = `node_modules/${ZBAR_WASM_PKG_NAME}/dist/zbar.wasm`;
 
