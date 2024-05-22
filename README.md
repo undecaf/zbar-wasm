@@ -137,7 +137,7 @@ import { scanImageData } from '@undecaf/zbar-wasm';
           imageData = ctx.getImageData(0, 0, img.width, img.height),
           symbols = await scanImageData(imageData);
 
-  console.log(ssymbols[0]?.typeName, symbols[0]?.decode())
+  console.log(symbols[0]?.typeName, symbols[0]?.decode())
 })('https://raw.githubusercontent.com/undecaf/zbar-wasm/master/tests/img/qr_code.png')
 ```
 
