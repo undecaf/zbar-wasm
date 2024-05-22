@@ -1,6 +1,6 @@
 {
   "name": "zbar-wasm-test",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "type": "module",
   "scripts": {
     "prebuild:webpack": "rimraf build/*/webpack",
@@ -11,7 +11,7 @@
     "build:esbuild": "node esbuild.config.js"
   },
   "dependencies": {
-    "@undecaf/zbar-wasm": "../undecaf-zbar-wasm-0.10.1.tgz",
+    "@undecaf/zbar-wasm": "../undecaf-zbar-wasm-0.11.0.tgz",
     "canvas": "^2.11.2"
   },
   "devDependencies": {

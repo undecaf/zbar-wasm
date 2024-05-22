@@ -1,5 +1,5 @@
 const { createCanvas, loadImage } = require('canvas');
-const { scanImageData } = require('@undecaf/zbar-wasm');
+const { scanImageData, setModuleArgs } = require('@undecaf/zbar-wasm');
 
 (async (url) => {
     const

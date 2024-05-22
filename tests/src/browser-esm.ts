@@ -1,4 +1,4 @@
-import { scanImageData } from '@undecaf/zbar-wasm'
+import { scanImageData, setModuleArgs } from '@undecaf/zbar-wasm'
 
 (async () => {
     const

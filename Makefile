@@ -14,7 +14,7 @@ EM_VERSION = 3.1.44
 EM_OPTS = --rm -w /$(SRC) -v $$PWD:/$(SRC) emscripten/emsdk:$(EM_VERSION)
 EM_DOCKER = docker run -u $(shell id -u):$(shell id -g) $(EM_OPTS)
 EM_PODMAN = podman run $(EM_OPTS)
-EM_ENGINE = $(EM_DOCKER)
+EM_ENGINE = $(EM_PODMAN)
 
 # See https://emscripten.org/docs/tools_reference/emcc.html
 EMCC = $(EM_ENGINE) emcc

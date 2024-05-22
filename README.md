@@ -23,7 +23,7 @@ of the [ZBar Bar Code Reader](https://github.com/mchehab/zbar) written in C/C++.
   RGB/grayscale [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) objects
 + Outperforms pure JavaScript barcode scanners
 
-:warning: zbar-wasm version 0.10 contains breaking changes with respect to version 0.9, please refer to section [Bundling/deploying zbar-wasm](#bundlingdeploying-zbar-wasm).
+:warning: zbar-wasm versions 0.10 and above contain breaking changes with respect to version 0.9, please refer to section [Bundling/deploying zbar-wasm](#bundlingdeploying-zbar-wasm).
 
 
 ## Examples based on zbar-wasm
@@ -54,7 +54,7 @@ An example that scans a static image file:
   <pre id="result"></pre>
 
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.1/dist/index.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.11.0/dist/index.js'
 
     (async () => {
       const
@@ -88,7 +88,7 @@ Almost identical to the snippet above, just replace the lines
 ```html
     ⁝
   <script type="module">
-    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.1/dist/index.js'
+    import * as zbarWasm from 'https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.11.0/dist/index.js'
     ⁝
 ```
 
@@ -96,7 +96,7 @@ with
 
 ```html
     ⁝
-  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.10.1/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@undecaf/zbar-wasm@0.11.0/dist/index.js"></script>
   <script>
     ⁝
 ```
@@ -107,9 +107,9 @@ with
 Installing:
 
 ```shell script
-$ npm install @undecaf/zbar-wasm@0.10.1
+$ npm install @undecaf/zbar-wasm@0.11.0
     or
-$ yarn add @undecaf/zbar-wasm@0.10.1
+$ yarn add @undecaf/zbar-wasm@0.11.0
 ```
 
 Using:
@@ -151,17 +151,16 @@ const { scanImageData } = require('@undecaf/zbar-wasm');
 
 ### Bundling/deploying zbar-wasm
 
-zbar-wasm provides ESM and CommonJS modules for Node.js and browsers. One of them needs to be
-bundled in your application. In any case, barcode scanning is delegated to the WebAssembly code
-in file `zbar.wasm`. At runtime, this file can be provided in different ways depending on the
-bundling configuration and on which zbar-wasm module was emitted by the bundler:
+Barcode scanning is always delegated to the WebAssembly code in file `zbar.wasm`.
+zbar-wasm provides various functionally equivalent ESM and CommonJS modules for Node.js and for browsers
+that differ in how `zbar.wasm` is to be provided at runtime:
 
-+ It can be loaded from a CDN by browsers.
-+ It can be bundled as an asset. That asset should be served to browsers as `application/wasm`
++ `zbar.wasm` can be loaded from a CDN by browsers.
++ `zbar.wasm` can be bundled as an asset. That asset should be served to browsers as `application/wasm`
   so that it can be compiled in parallel with being received.
 + Several zbar-wasm modules contain `zbar.wasm` as inline data.
 
-This overview shows which modules are available in zbar-wasm:
+The following overview shows the modules that are available in zbar-wasm. One of them needs to be bundled in your application.
 
 | Path in package           | Module type | Node core modules polyfilled<br>(suitable for browsers) | `zbar.wasm` inlined |
 |:--------------------------|:-----------:|:-------------------------------------------------------:|:-------------------:|
@@ -179,8 +178,8 @@ appropriate module by default in most cases. However, `zbar.wasm` as inline data
 [export condition](https://nodejs.org/docs/latest-v16.x/api/packages.html#conditional-exports) in the bundler configuration, typically `'zbar-inlined'`.
 Please refer to the `exports` section of `package.json` for details.
 
-[Building zbar-wasm](#building-zbar-wasm-from-source) runs bundling tests with [Webpack](https://webpack.js.org/), [Rollup](https://rollupjs.org/) and 
-[esbuild](https://esbuild.github.io/) and also tests the resulting bundles. The bundler configuration files
+[Building zbar-wasm](#building-zbar-wasm-from-source) includes testing the bundling process with [Webpack](https://webpack.js.org/), [Rollup](https://rollupjs.org/) and 
+[esbuild](https://esbuild.github.io/) and also testing the resulting bundles. The bundler configuration files
 [`tests/{webpack,rollup,esbuild}.config.js`](https://github.com/undecaf/zbar-wasm/tree/master/tests)
 may be used as a reference of how to achieve a particular bundling result. Each of them covers
 the following combinations of platforms, module types and `zbar.wasm` provisioning for the
@@ -191,6 +190,33 @@ respective bundler:
 | loaded from CDN   |                   | ESM, plain `<script>` |
 | bundled as asset  |   ESM, CommonJS   |          ESM          |
 | inlined in module |   ESM, CommonJS   | ESM, plain `<script>` |
+
+
+### Loading `zbar.wasm` from a custom location
+
+As a last resort, if you cannot make your bundler place `zbar.wasm` where it can be located by the script,
+you can specify an URL or path for that WASM file at runtime:
+
+```javascript
+import { scanImageData, setModuleArgs } from '@undecaf/zbar-wasm';
+    ⁝
+// Call this function once at the beginning
+setModuleArgs({
+  /**
+   * This function must return the URL or path of the WASM file.
+   * 
+   * @param filename default WASM filename ('zbar.wasm')
+   * @param directory default WASM directory (URL or directory of the current script)
+   * @returns {string} URL or path of the WASM file
+   */
+  locateFile: (filename, directory) => {
+      return 'file:///your/wasm/directory/zbar.wasm'
+  }   
+});
+    ⁝
+// Then use the scanner
+const symbols = await scanImageData(...);
+```
 
 
 ## API documentation

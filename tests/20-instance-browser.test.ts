@@ -29,3 +29,13 @@ test('ZBarInstance created', async () => {
     const inst = await zbarWasm.getInstance()
     testZBarInstance(inst);
 });
+
+
+test('ZBarInstance created from a custom WASM file', async () => {
+  zbarWasm.setModuleArgs({
+    locateFile: () => '../dist/zbar.wasm'
+  })
+
+  const inst = await zbarWasm.getInstance()
+  testZBarInstance(inst)
+})

@@ -1,4 +1,5 @@
-import { getInstance } from '../dist/main.cjs'
+import { getInstance, setModuleArgs } from '../dist/main.cjs'
+import type { ZBarModuleArgs} from '../dist/main.cjs';
 
 export function testZBarInstance(inst) {
   expect(inst).toBeDefined()
@@ -31,6 +32,16 @@ export function testZBarInstance(inst) {
 
 
 test('ZBarInstance created', async () => {
+  const inst = await getInstance()
+  testZBarInstance(inst)
+})
+
+
+test('ZBarInstance created from a custom WASM file', async () => {
+  setModuleArgs({
+    locateFile: () => './dist/zbar.wasm'
+  })
+
   const inst = await getInstance()
   testZBarInstance(inst)
 })

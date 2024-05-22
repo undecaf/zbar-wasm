@@ -1,5 +1,5 @@
 import { createCanvas, loadImage }  from 'canvas';
-import { scanImageData } from '@undecaf/zbar-wasm';
+import { scanImageData, setModuleArgs } from '@undecaf/zbar-wasm';
 
 (async (url) => {
     const
