@@ -247,7 +247,7 @@ Prerequisites:
 
 + A Linux platform
 + GNU `make`, `tar` and `curl`
-+ [Docker](https://www.docker.com/) or [Podman](https://podman.io/)
++ [Podman](https://podman.io/) or [Docker](https://www.docker.com/)
 + [Node.js](https://nodejs.org/) v16+
 + At least one of the [browsers supported by TestCafé](https://testcafe.io/documentation/402828/guides/intermediate-guides/browsers)
 
@@ -260,13 +260,13 @@ To build:
   ```
 - Enter your browser(s) in `.testcaferc.json` ([supported browsers](https://testcafe.io/documentation/402828/guides/intermediate-guides/browsers)).
 - Enter two available port numbers in `tests/src/ports.js`.
-- If you prefer [Podman](https://podman.io/) as container engine then replace
+- If you prefer [Docker](https://www.docker.com/) over [Podman](https://podman.io/) as container engine then replace
   ```
-  EM_ENGINE = $(EM_DOCKER)
+  EM_ENGINE = $(EM_PODMAN)
   ```
   with
   ```
-  EM_ENGINE = $(EM_PODMAN)
+  EM_ENGINE = $(EM_DOCKER)
   ```
   in the provided `Makefile`.
 - Run the build process:
